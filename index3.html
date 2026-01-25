@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <h1>hobby</h1>
+    <div id="content"></div>
+
+<input  type="checkbox" name="hobby" value="reading"> Reading
+<input  type="checkbox" name="hobby" value="swimming"> Swimming
+<input  type="checkbox" name="hobby" value="gameing"> Gameing
+<button onclick="submitHobby()">Submit</button>
+    <script>
+        function submitHobby() {
+            let hobbyInputs = document.querySelectorAll('input[name="hobby"]');
+            let selectedHobbies = [];
+            for (let i = 0 ; i < hobbyInputs.length; i++) {
+                if (hobbyInputs[i].checked) {
+                    selectedHobbies.push(hobbyInputs[i].value);
+                }
+            }
+            console.log("Hobbies selected: " + selectedHobbies.join(", "));
+        }
+        </script>
+</body>
+</html>
