@@ -1,0 +1,29 @@
+# ใช้ Nginx เวอร์ชั่น Alpine เพราะมีขนาดเล็กมาก (ประมาณ 5MB) ประหยัดพื้นที่
+FROM nginx:alpine
+
+# ลบไฟล์เริ่มต้นของ Nginx ออกก่อน เพื่อความสะอาด
+RUN rm -rf /usr/share/nginx/html/*
+
+# คัดลอก index.html และ styles.css จากเครื่องเราเข้าไปใน Container
+# (ถ้ามีไฟล์รูปภาพหรือโฟลเดอร์อื่น Docker จะก๊อปปี้ไปทั้งหมด)
+COPY . /usr/share/nginx/html/
+
+# บอกให้โลกรู้ว่า Container นี้ใช้งานผ่านพอร์ต 80
+EXPOSE 80
+
+# สั่งให้ Nginx ทำงานในฉากหน้า (Foreground) เพื่อให้ Container ไม่ดับ
+CMD ["nginx", "-g", "daemon off;"]
+
+
+
+version: '3.8'
+
+services:
+  my-web-form:
+    build: .
+    container_name: register_form_app
+    ports:
+      - "8080:80"  # เข้าใช้งานผ่านเว็บด้วยเลข http://localhost:8080
+    volumes:
+      - .:/usr/share/nginx/html # เชื่อมโฟลเดอร์ในเครื่องกับ Docker (แก้ไขโค้ดแล้วหน้าเว็บเปลี่ยนทันทีไม่ต้องรันใหม่)
+    restart: always
