@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_USER: root
+      PMA_PASSWORD: root
+      UPLOAD_LIMIT: 64M
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - weblab820
+    restart: always
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data_820:/var/lib/mysql
+    networks:
+      - weblab820
+    restart: always
+
+networks:
+  weblab820:
+    driver: bridge
+
+volumes:
+  mysql_data_820:
+    driver: local
